@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto Interactivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&family=Offside&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <button class="close-btn" onclick="window.history.back()">✕</button>
+
+  <div class="video-container">
+    <video autoplay muted loop playsinline>
+      <source src="img/fotogrametria/fotogrametria.mp4" type="video/mp4" />
+      Tu navegador no soporta videos HTML5.
+    </video>
+    <div class="overlay">
+      <h1>Fotogrametría: Modelos 3d <br> a partir de fotografía aerea</h1>
+      <br><br>
+      <img src="img/logo.png" alt="Logotipo" />
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Descripción del Proyecto</h2>
+    <p>
+    Este programa introduce a los estudiantes en el uso de drones como herramienta para la captura, análisis y representación tridimensional del territorio. A través de ejercicios prácticos, los estudiantes planifican vuelos, recopilan imágenes aéreas y generan modelos digitales de diferentes espacios utilizando técnicas de fotogrametría. 
+    </p>
+    <p>
+    Entre los proyectos desarrollados se encuentran modelos tridimensionales del campus universitario, levantamientos de áreas extensas de terreno y representaciones digitales que permiten analizar las características físicas de un espacio desde diferentes perspectivas. Para la captura de información se han utilizado drones como el DJI Mavic Pro, combinados con plataformas especializadas como DroneDeploy para la planificación de misiones, procesamiento de imágenes y generación de productos cartográficos.
+    </p>
+    <p>
+    El programa permite comprender el potencial de los drones para aplicaciones como levantamientos topográficos, documentación territorial, planeación, inspección y visualización de espacios, integrando conocimientos de tecnología, fotografía aérea, análisis de datos y representación digital.
+    </p>
+
+    <h2>Galería de Imágenes</h2>
+    <div class="gallery">
+      <img src="img/fotogrametria/proyecto_1.webp" alt="Imagen 1" />
+      <img src="img/fotogrametria/proyecto_2.webp" alt="Imagen 2" />
+      <img src="img/fotogrametria/proyecto_3.webp" alt="Imagen 3" />
+    </div>
+
+     <h2>Tecnologías Utilizadas</h2>
+    <div class="technologies">
+      <span class="tag">Dron DJI Mavic 2 Pro</span>
+      <span class="tag">DroneDeploy</span>
+      <span class="tag">Blender</span>
+    </div>
+
+<!--    <h2>Galería de Video</h2>
+    <div class="gallery">
+      <video controls poster="img/proyecto1_1.png" style="width:100%; border: 1px solid white;">
+        <source src="img/VideojuegoIA.mp4" type="video/mp4" />
+        Tu navegador no soporta videos HTML5.
+      </video>
+
+    </div>-->
+
+    <h2>Participantes</h2>
+    <div class="credits">
+      <ul>
+        <li><strong>Facultad de Tecnologías de Información y Ciencia de Datos</strong> </li>
+        <li><strong>Coordinador:</strong> Mtro. Alejandro Jarero Mora</li>
+        <!--<li><strong>Investigador:</strong> Nombre y Apellidos</li> -->
+        <li><strong>Desarrolladores:</strong> Rubí Hernández García, Lisardo Sobrado Morales, Inés Llergo Sánchez, Ares Valentín Bautista, Denisse Corte Quinnell</li>
+        <li><strong>2025</strong> </li>
+        <!--<li><strong>Diseño y Comunicación:</strong> Nombre y Apellidos</li>--><br><br>
+
+        <img src="img/logoupaep.png" alt="Logotipo" /> 
+      </ul>
+    </div>
+  </div>
+
+  <!-- Lightbox para imágenes -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-arrow left" onclick="prevImage()">&#10094;</button>
+    <img id="lightbox-img" src="" alt="Imagen ampliada" />
+    <button class="lightbox-arrow right" onclick="nextImage()">&#10095;</button>
+  </div>
+
+  <script>
+    const images = document.querySelectorAll('.gallery img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let currentIndex = 0;
+
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        showLightbox(img.src);
+      });
+    });
+
+    function showLightbox(src) {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.style.display === 'flex') {
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowRight') nextImage();
+        else if (e.key === 'ArrowLeft') prevImage();
+      }
+    });
+  </script>
+
+</body>
+</html>

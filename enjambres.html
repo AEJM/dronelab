@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto Interactivo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700&family=Offside&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Maven Pro', sans-serif;
+      background-color: #31414b;
+      color: rgb(175, 175, 175);
+      overflow-x: hidden;
+    }
+
+    .video-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .video-container video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.70) 1px, transparent 1px);
+      background-size: 4px 4px;
+    }
+
+    .overlay img {
+      width: 500px;
+      margin-bottom: 20px;
+    }
+
+    .overlay h1 {
+      font-size: 3rem;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: white;
+      font-family: 'Offside', sans-serif;
+    }
+
+    .close-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 999;
+      background: none;
+      border: 2px solid white;
+      color: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .close-btn:hover {
+      background: white;
+      color: black;
+    }
+
+    .content {
+      padding: 80px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #31414b;
+    }
+
+    .content h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      border-bottom: 1px solid white;
+      padding-bottom: 10px;
+      font-weight: 500;
+      color: white;
+      font-family: 'Offside', sans-serif;
+    }
+
+    .content p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 60px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border: 1px solid white;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .credits {
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-top: 60px;
+    }
+
+    .credits ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .credits li {
+      margin-bottom: 5px;
+    }
+
+    /* Estilos del lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border: 2px solid white;
+      z-index: 1;
+    }
+
+    .lightbox-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 48px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 2;
+      font-weight: 300;
+      padding: 10px;
+      user-select: none;
+    }
+
+    .lightbox-arrow.left {
+      left: 20px;
+    }
+
+    .lightbox-arrow.right {
+      right: 20px;
+    }
+
+    .lightbox-arrow:hover {
+      color: #aaa;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .lightbox-close:hover {
+      color: #ccc;
+    }
+
+    .technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 30px;
+      margin-bottom: 60px;
+    }
+
+    .tag {
+      border: 1px solid #888;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: rgb(175, 175, 175);
+      background-color: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .tag:hover {
+      border-color: white;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="close-btn" onclick="window.history.back()">✕</button>
+
+  <div class="video-container">
+    <video autoplay muted loop playsinline>
+      <source src="img/enjambres/enjambres.mov" type="video/mp4" />
+      Tu navegador no soporta videos HTML5.
+    </video>
+    <div class="overlay">
+      <h1>Enjambres de Drones: <br> Modelado y Programación de rutas de<br>vuelo, con enjambres de drones</h1>
+      <br><br>
+      <img src="img/logo.png" alt="Logotipo" />
+    </div>
+  </div>
+
+  <div class="content">
+    <h2>Descripción del Proyecto</h2>
+    <p>
+    Este proyecto introduce a los estudiantes en el diseño, programación y operación coordinada de enjambres de drones, utilizando 10 drones <b>Crazyflie</b> programables. El trabajo combina modelado tridimensional, programación, redes inalámbricas, sistemas de posicionamiento y electrónica, para conseguir que múltiples drones ejecuten trayectorias coordinadas dentro de un espacio controlado.
+    </p>
+    <p>
+Las coreografías se diseñan en <b>Blender</b>, donde se construyen las formaciones y movimientos tridimensionales. Posteriormente, <b>Skybrush Studio</b> permite convertir el diseño en trayectorias de vuelo, realizar la planificación de movimientos, verificar las rutas y exportar el programa que será ejecutado por el enjambre. 
+    </p>
+    <p>
+Para posicionar los drones se utiliza el sistema Lighthouse, mediante estaciones base que permiten a los <b>Crazyflie</b> determinar su posición en el espacio. La comunicación entre la computadora y los drones se realiza mediante <b>Crazyradio</b>, mientras que la configuración de canales, direcciones y parámetros de comunicación permite gestionar la flota.
+    </p>
+    <p>
+El proyecto implica también configurar el espacio de vuelo, calibrar el sistema, realizar pruebas y ajustes constantes, así como reparar drones, actualizar y flashear firmware, configurar diferentes parámetros y solucionar problemas de hardware y comunicación. El proceso experimental es fundamental para conseguir vuelos sincronizados y resultados precisos.
+    </p>
+    <h2>Galería de Imágenes</h2>
+    <div class="gallery">
+      <img src="img/enjambres/proyecto_1.webp" alt="Imagen 1" />
+      <img src="img/enjambres/proyecto_2.webp" alt="Imagen 2" />
+      <img src="img/enjambres/proyecto_3.webp" alt="Imagen 3" />
+    </div>
+
+     <h2>Tecnologías Utilizadas</h2>
+    <div class="technologies">
+      <span class="tag">Drones CrazyFlie</span>
+      <span class="tag">Blender</span>
+      <span class="tag">SkyBrush</span>
+      <span class="tag">Lighthouse</span>
+    </div>
+
+<!--    <h2>Galería de Video</h2>
+    <div class="gallery">
+      <video controls poster="img/proyecto1_1.png" style="width:100%; border: 1px solid white;">
+        <source src="img/VideojuegoIA.mp4" type="video/mp4" />
+        Tu navegador no soporta videos HTML5.
+      </video>
+
+    </div>-->
+
+    <h2>Participantes</h2>
+    <div class="credits">
+      <ul>
+        <li><strong>Facultad de Tecnologías de Información y Ciencia de Datos</strong> </li>
+        <li><strong>Coordinador:</strong> Mtro. Alejandro Jarero Mora</li>
+        <!--<li><strong>Investigador:</strong> Nombre y Apellidos</li> -->
+        <li><strong>Desarrolladores:</strong> Rodrigo Aguilar Vázquez, Alfonso Álvarez Palomares, Mauricio Solano Nájera, Sebastián Morán Hernández </li>
+        <li><strong>2023</strong> </li>
+        <!--<li><strong>Diseño y Comunicación:</strong> Nombre y Apellidos</li>--><br><br>
+
+        <img src="img/logoupaep.png" alt="Logotipo" /> 
+      </ul>
+    </div>
+  </div>
+
+  <!-- Lightbox para imágenes -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-arrow left" onclick="prevImage()">&#10094;</button>
+    <img id="lightbox-img" src="" alt="Imagen ampliada" />
+    <button class="lightbox-arrow right" onclick="nextImage()">&#10095;</button>
+  </div>
+
+  <script>
+    const images = document.querySelectorAll('.gallery img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    let currentIndex = 0;
+
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        currentIndex = index;
+        showLightbox(img.src);
+      });
+    });
+
+    function showLightbox(src) {
+      lightbox.style.display = 'flex';
+      lightboxImg.src = src;
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = 'none';
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (lightbox.style.display === 'flex') {
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowRight') nextImage();
+        else if (e.key === 'ArrowLeft') prevImage();
+      }
+    });
+  </script>
+
+</body>
+</html>
